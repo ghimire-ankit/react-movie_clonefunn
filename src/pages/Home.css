@@ -1,0 +1,9 @@
+.home-page {
+  /* Hero handles its own top positioning */
+}
+
+.home-content {
+  margin-top: -80px;
+  position: relative;
+  z-index: 2;
+}

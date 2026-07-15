@@ -1,0 +1,25 @@
+.search-page {
+  padding-top: calc(var(--navbar-height) + 20px);
+  min-height: 100vh;
+}
+
+.search-header {
+  padding: 20px 0 24px;
+}
+
+.search-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.search-title .accent {
+  color: var(--accent-primary);
+}
+
+.search-count {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Reuse browse-grid and pagination styles from Browse.css */
