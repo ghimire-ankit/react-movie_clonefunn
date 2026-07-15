@@ -30,7 +30,7 @@ export default function Browse() {
       setActiveGenre(genreParam || '');
       setPage(1);
     }
-  }, [searchParams]);
+  }, [searchParams, activeGenre]);
 
   // Fetch movies
   const fetchMovies = useCallback(async () => {
