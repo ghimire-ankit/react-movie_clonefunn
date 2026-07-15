@@ -1,25 +1,28 @@
 .search-page {
-  padding-top: calc(var(--navbar-height) + 20px);
+  padding-top: calc(var(--navbar-height) + 28px);
   min-height: 100vh;
 }
 
 .search-header {
-  padding: 20px 0 24px;
+  padding: 24px 0 28px;
 }
 
 .search-title {
-  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .search-title .accent {
-  color: var(--accent-primary);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .search-count {
-  color: var(--text-muted);
+  color: var(--text-tertiary);
   font-size: 0.9rem;
-  margin-top: 4px;
+  margin-top: 6px;
 }
-
-/* Reuse browse-grid and pagination styles from Browse.css */
