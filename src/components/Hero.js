@@ -5,19 +5,24 @@ import './Hero.css';
 export default function Hero({ movie }) {
   if (!movie) return null;
 
-  const gradient = movie.backdropUrl
+  const hasBackdrop = movie.backdropUrl && movie.backdropUrl !== 'N/A';
+  const gradient = hasBackdrop
     ? `linear-gradient(to top, var(--bg-primary) 0%, rgba(10,10,15,0.6) 50%, rgba(10,10,15,0.2) 100%), linear-gradient(to right, var(--bg-primary) 0%, transparent 50%)`
     : movie.placeholderGradient;
 
   return (
     <section className="hero" style={{ background: gradient }}>
-      {movie.backdropUrl && (
+      {hasBackdrop && (
         <div className="hero-backdrop">
           <img
             src={movie.backdropUrl}
             alt=""
             className="hero-backdrop-img"
             loading="eager"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.parentElement.style.display = 'none';
+            }}
           />
           <div className="hero-backdrop-overlay"></div>
         </div>

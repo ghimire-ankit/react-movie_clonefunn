@@ -15,6 +15,7 @@ export default function MovieCard({ movie, index = 0 }) {
   };
 
   const ratingColor = movie.rating >= 7 ? '#00d4aa' : movie.rating >= 5 ? '#f1c40f' : '#e74c3c';
+  const showPlaceholder = !imageLoaded || imageError || !movie.posterUrl;
 
   return (
     <Link
@@ -24,32 +25,25 @@ export default function MovieCard({ movie, index = 0 }) {
     >
       {/* Poster */}
       <div className="movie-card-poster">
-        {!imageLoaded && !imageError && (
-          <div
-            className="movie-card-placeholder"
-            style={{ background: movie.placeholderGradient }}
-          >
-            <div className="placeholder-shimmer"></div>
-          </div>
-        )}
+        {/* Always render gradient background behind the image */}
+        <div
+          className={`movie-card-bg ${!showPlaceholder && imageLoaded ? 'hidden' : ''}`}
+          style={{ background: movie.placeholderGradient }}
+        >
+          <div className="placeholder-shimmer"></div>
+          <span className="placeholder-text">{movie.title?.charAt(0) || '?'}</span>
+        </div>
 
-        {movie.posterUrl && !imageError ? (
-          <img
-            src={movie.posterUrl}
-            alt={movie.title}
-            className={`movie-card-img ${imageLoaded ? 'loaded' : ''}`}
-            onLoad={() => setImageLoaded(true)}
-            onError={handleImageError}
-            loading="lazy"
-          />
-        ) : (
-          <div
-            className="movie-card-placeholder visible"
-            style={{ background: movie.placeholderGradient }}
-          >
-            <span className="placeholder-text">{movie.title?.charAt(0) || '?'}</span>
-          </div>
-        )}
+        {/* Actual image - will load from TMDB or picsum */}
+        <img
+          src={movie.posterUrl}
+          alt={movie.title}
+          className={`movie-card-img ${imageLoaded ? 'loaded' : ''}`}
+          style={imageError ? { display: 'none' } : {}}
+          onLoad={() => setImageLoaded(true)}
+          onError={handleImageError}
+          loading="lazy"
+        />
 
         {/* Rating Badge */}
         <div className="movie-card-rating" style={{ color: ratingColor }}>

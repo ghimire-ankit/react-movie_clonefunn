@@ -53,18 +53,29 @@ function getGenreColor(name) {
   return GENRE_COLORS[name] || '#666';
 }
 
+// Generate a unique but consistent placeholder image URL for demo movies
+function getDemoImageUrl(movieId, title, type = 'poster') {
+  const seed = title ? title.toLowerCase().replace(/[^a-z0-9]/g, '') : `movie-${movieId}`;
+  const size = type === 'poster' ? '400x600' : '1280x720';
+  return `https://picsum.photos/seed/${seed}/${size}`;
+}
+
 function getImageUrl(path, size = 'w500') {
   if (!path) return null;
   if (path.startsWith('http')) return path;
   return `${IMG_BASE}/${size}${path}`;
 }
 
-function getBackdropUrl(path) {
-  return getImageUrl(path, 'original');
+function getBackdropUrl(path, movieId, title) {
+  if (path) return getImageUrl(path, 'original');
+  // Fallback to demo placeholder
+  return getDemoImageUrl(movieId, title, 'backdrop');
 }
 
-function getPosterUrl(path) {
-  return getImageUrl(path, 'w500');
+function getPosterUrl(path, movieId, title) {
+  if (path) return getImageUrl(path, 'w500');
+  // Fallback to demo placeholder
+  return getDemoImageUrl(movieId, title, 'poster');
 }
 
 // Generate gradient placeholder colors based on movie id
@@ -99,8 +110,8 @@ function enrichMovie(movie) {
     ...movie,
     genreNames: (movie.genre_ids || []).map(getGenreName),
     genreColors: (movie.genre_ids || []).map(id => getGenreColor(getGenreName(id))),
-    posterUrl: getPosterUrl(movie.poster_path),
-    backdropUrl: getBackdropUrl(movie.backdrop_path),
+    posterUrl: getPosterUrl(movie.poster_path, movie.id, movie.title),
+    backdropUrl: getBackdropUrl(movie.backdrop_path, movie.id, movie.title),
     placeholderGradient: getPlaceholderGradient(movie.id),
     year: movie.release_date ? movie.release_date.split('-')[0] : 'TBD',
     rating: movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A',
